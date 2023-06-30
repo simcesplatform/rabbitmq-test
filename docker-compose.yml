@@ -1,0 +1,44 @@
+version: '3.9'
+
+services:
+
+    rabbitmq:
+        image: rabbitmq:3.8.34-management
+        container_name: test_rabbitmq
+        restart: unless-stopped
+        environment:
+            RABBITMQ_HOST: host.docker.internal
+            RABBITMQ_PORT: 22222
+            RABBITMQ_VM_MEMORY_HIGH_WATERMARK: 0.25
+        healthcheck:
+            test: rabbitmq-diagnostics -q status
+            interval: 1s
+            timeout: 30s
+            retries: 100
+        ports:
+            - 22222:5672
+            - 22223:15672
+        networks:
+            - test_rabbitmq
+
+    test:
+        image: ghcr.io/simcesplatform/test-rabbitmq:latest
+        build:
+            context: .
+            dockerfile: Dockerfile
+        depends_on:
+            rabbitmq:
+                condition: service_healthy
+        container_name: test_test
+        restart: "no"
+        environment:
+            RABBITMQ_HOST: host.docker.internal
+            RABBITMQ_PORT: 22222
+        networks:
+            - test_test
+
+networks:
+    test_rabbitmq:
+        name: test_rabbitmq
+    test_test:
+        name: test_test
