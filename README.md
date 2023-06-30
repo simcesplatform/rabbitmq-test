@@ -1,5 +1,7 @@
 # RabbitMQ test
 
+All code in this repository is either copied from or based on [simulation-tools](https://github.com/simcesplatform/simulation-tools) repository.
+
 To start the test:
 
 ```bash
