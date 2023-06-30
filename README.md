@@ -2,7 +2,7 @@
 
 All code in this repository is either copied from or based on [simulation-tools](https://github.com/simcesplatform/simulation-tools) repository.
 
-To start the test:
+To start the test (only the file `docker-compose.yml` needed):
 
 ```bash
 docker compose up --abort-on-container-exit
